@@ -29,7 +29,7 @@ if h>12:
 if is_pm:
   meridiem = "PM"
 else:
-    meridiem = "AM"
+  meridiem = "AM"
 
 time_format = ""
 
