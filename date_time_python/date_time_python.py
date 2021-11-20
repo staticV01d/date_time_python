@@ -13,53 +13,60 @@
 #
 
 from datetime import datetime
+#import pytz
 
-get_now = datetime.now()
-h = get_now.hour
-m = get_now.minute
-s = get_now.second
-is_pm = h > 11
-meridiem = ""
-convert_to_12_h = h > 12
-twelve_hour_time = h
+#tz = pytz.timezone("US/Pacific")
+get_datetime = datetime.now()
 
-if h>12:
-  twelve_hour_time -= 12
+def date_format():
+  global get_datetime
+  month = str(get_datetime.date().month)
+  day = str(get_datetime.date().day)
+  year = str(get_datetime.date().year)
+  result = month + "-" + day + "-" + year
+  return result
 
-if is_pm:
-  meridiem = "PM"
-else:
-  meridiem = "AM"
+def time_format():
+  global get_datetime
+  h = get_datetime.hour
+  converted_h = 0
+  convert_h = h > 12
+  add_zero_to_h = ""
+  meridiem = ""
 
-time_format = ""
+  if convert_h:
+    converted_h = h - 12
+    meridiem = "PM"
+  elif h == 12:
+    meridiem = "PM"  
+  else:
+    meridiem = "AM"  
+  
+  if h < 10:
+    add_zero_to_h = "0"
 
-if twelve_hour_time < 10 and m > 9 and s > 9:
-  time_format = "Current time: \n0{}:{}:{} "
-elif m < 10 and twelve_hour_time > 9 and s > 9:
-  time_format = "Current time: \n{}:0{}:{} "
-elif s < 10 and twelve_hour_time > 9 and m > 9:
-  time_format = "Current time: \n{}:{}:0{} "
-elif twelve_hour_time < 10 and m < 10 and s > 10:
-  time_format = "Current time: \n0{}:0{}:{} "
-elif twelve_hour_time < 10 and m < 10 and s < 10:
-  time_format = "Current time: \n0{}:0{}:0{} "
-elif m < 10 and s < 10 and twelve_hour_time > 10:
-  time_format = "Current time: \n{}:0{}:0{} "
-elif twelve_hour_time < 10 and m > 9 and s < 10:
-  time_format = "Current time: \n0{}:{}:0{} "
-else:
-  time_format = "Current time: \n{}:{}:{} "
+  end_h = add_zero_to_h + str(converted_h)   
 
-formatted_time = time_format.format(twelve_hour_time, m, s) + meridiem
+  m = get_datetime.minute
+  add_zero_to_m = ""
+
+  if m < 10:
+    add_zero_to_m = "0"
+
+  end_m = add_zero_to_m + str(m)  
+
+  s = get_datetime.second
+
+  add_zero_to_s = ""
+
+  if s < 10:
+    add_zero_to_s = "0"
+
+  end_s = add_zero_to_s + str(s)  
+
+  formatted_time = end_h + ":" + end_m + ":" + end_s + " " + meridiem
+  return formatted_time # return a string with final time formatting
 
 
-# print the final result for current time
-print(formatted_time + "\n")
-
-month = get_now.date().month
-day = get_now.date().day
-year = get_now.date().year
-date_info = "Current date: \n{}-{}-{}".format(month, day, year)
-
-# print the result for current calendar date
-print(date_info)
+# print formatted results by calling the date_format() and time_format() functions
+print (" Date: \n",date_format(),"\n\n", "Time: \n",time_format())
