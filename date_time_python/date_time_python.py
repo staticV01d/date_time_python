@@ -13,6 +13,7 @@
 #
 
 from datetime import datetime
+import os
 #import pytz
 
 #tz = pytz.timezone("US/Pacific")
@@ -20,6 +21,7 @@ get_datetime = datetime.now()
 
 def date_format():
   global get_datetime
+  get_datetime = datetime.now()
   month = str(get_datetime.date().month)
   day = str(get_datetime.date().day)
   year = str(get_datetime.date().year)
@@ -28,6 +30,7 @@ def date_format():
 
 def time_format():
   global get_datetime
+  get_datetime = datetime.now()
   h = get_datetime.hour
   converted_h = 0
   convert_h = h > 12
@@ -67,6 +70,23 @@ def time_format():
   formatted_time = end_h + ":" + end_m + ":" + end_s + " " + meridiem
   return formatted_time # return a string with final time formatting
 
+def clear_console():
+  os.system('cls')
 
 # print formatted results by calling the date_format() and time_format() functions
 print (" Date: \n",date_format(),"\n\n", "Time: \n",time_format())
+
+def reprint_datetime():
+  global get_datetime
+  get_datetime = datetime.now()
+  refresh = input()
+  if refresh == "e":
+    print (" Date: \n",date_format(),"\n\n", "Time: \n",time_format())
+    return
+  else:
+    clear_console()
+    print("try again")
+    reprint_datetime()
+
+print("\n", "Press (e) to display time again")
+reprint_datetime()
